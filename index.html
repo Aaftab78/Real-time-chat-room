@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <div id="name-input-panel" class="name-input-panel">
+            <label for="username" class="label">Enter your name:</label>
+            <input type="text" id="username" class="text-field">
+            <button onclick="setUsername()" class="button">Join Chat</button>
+        </div>
+        <div id="chat-panel" class="frame" style="display: none;">
+            <div class="panel">
+                <div class="label">Chat Messages</div>
+                <div id="chat-box" class="chat-box"></div>
+            </div>
+            <div class="control-panel">
+                <div class="text-field-group">
+                    <label for="message" class="label">Message:</label>
+                    <input type="text" id="message" placeholder="Type your message here..." class="text-field">
+                </div>
+                <button onclick="sendMessage()" class="button">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script>
+        const socket = io();
+        let username = '';
+
+        socket.on('message', function(data) {
+            let chatBox = document.getElementById('chat-box');
+            let messageElement = document.createElement('p');
+            messageElement.innerHTML = `<strong>${data.username}:</strong> ${data.message}`;
+            chatBox.appendChild(messageElement);
+            chatBox.scrollTop = chatBox.scrollHeight; // Auto-scroll to the bottom
+        });
+
+        function setUsername() {
+            username = document.getElementById('username').value;
+            if (username.trim() !== "") {
+                document.getElementById('name-input-panel').style.display = 'none';
+                document.getElementById('chat-panel').style.display = 'flex';
+            }
+        }
+
+        function sendMessage() {
+            let messageInput = document.getElementById('message');
+            let message = messageInput.value;
+            if (message.trim() !== "") {
+                socket.send({username: username, message: message});
+                messageInput.value = '';
+            }
+        }
+    </script>
+</body>
+</html>
