@@ -1,2 +1,12 @@
-# Real-time-chat-room
-eal-Time Chat Application: Developed a real-time chat application using Flask and Flask-SocketIO. The application supports multiple users, allowing them to join a chat room, set their names, and send messages displayed with the sender's name. Designed to be accessible from both desktop and mobile devices within the same local network.
+This is a real-time chat application built using Flask and Flask-SocketIO. The application allows multiple users to join a chat room, set their names, and send messages that are broadcast to all connected users. It is designed to be accessible from both desktop and mobile devices on the same local network.
+
+Features
+Real-time messaging using WebSockets
+Multiple users can join the chat room
+Each user sets their name upon joining
+Messages display the sender's name
+Requirements
+Python 3.x
+Flask
+Flask-SocketIO
+
